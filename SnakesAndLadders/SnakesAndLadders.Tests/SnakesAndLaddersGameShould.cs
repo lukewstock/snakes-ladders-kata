@@ -35,5 +35,15 @@ namespace SnakesAndLadders.Tests
             var result = _game.GetPlayerTokenPosition();
             result.Should().Be(expectedPosition);
         }
+
+        [Test]
+        public void ShouldUpdateThePositionForEachMove_WhenPlayerTokenIsMovedMutipleTimes()
+        {
+            _game.MoveToken(1);
+            _game.MoveToken(7);
+
+            var result = _game.GetPlayerTokenPosition();
+            result.Should().Be(9);
+        }
     }
 }
