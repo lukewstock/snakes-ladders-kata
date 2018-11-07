@@ -25,13 +25,15 @@ namespace SnakesAndLadders.Tests
             result.Should().Be(1);
         }
 
-        [Test]
-        public void ShouldUpdateTheCurrentPlayerTokenPosition_WhenPlayerTokenIsMoved()
+        [TestCase(1, 2)]
+        [TestCase(24, 25)]
+        [TestCase(2091, 2092)]
+        public void ShouldUpdateTheCurrentPlayerTokenPosition_WhenPlayerTokenIsMoved(int moves, int expectedPosition)
         {
-            _game.MoveToken(1);
+            _game.MoveToken(moves);
 
             var result = _game.GetPlayerTokenPosition();
-            result.Should().Be(2);
+            result.Should().Be(expectedPosition);
         }
     }
 }
