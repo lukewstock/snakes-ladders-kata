@@ -20,7 +20,10 @@ namespace SnakesAndLadders
 
         public void MoveToken(int spacesToMove)
         {
-            _currentPosition += spacesToMove;
+            if(!(_currentPosition + spacesToMove > 100))
+            {
+                _currentPosition += spacesToMove;
+            }            
         }
     }
 }

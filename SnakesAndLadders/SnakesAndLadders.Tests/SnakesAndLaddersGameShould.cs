@@ -26,8 +26,7 @@ namespace SnakesAndLadders.Tests
         }
 
         [TestCase(1, 2)]
-        [TestCase(24, 25)]
-        [TestCase(2091, 2092)]
+        [TestCase(24, 25)]        
         public void ShouldUpdateTheCurrentPlayerTokenPosition_WhenPlayerTokenIsMoved(int moves, int expectedPosition)
         {
             _game.MoveToken(moves);
@@ -44,6 +43,15 @@ namespace SnakesAndLadders.Tests
 
             var result = _game.GetPlayerTokenPosition();
             result.Should().Be(9);
+        }
+
+        [Test]
+        public void ShouldNotUpdateThePosition_WhenTheMoveWouldExceedTheMaxPosition()
+        {
+            _game.MoveToken(100);
+
+            var result = _game.GetPlayerTokenPosition();
+            result.Should().Be(1);
         }
     }
 }
