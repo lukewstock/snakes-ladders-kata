@@ -6,6 +6,7 @@ namespace SnakesAndLadders
 {
     public class SnakesAndLaddersGame
     {
+        private const int boardSize = 100;
         int _currentPosition;
 
         public SnakesAndLaddersGame()
@@ -20,10 +21,15 @@ namespace SnakesAndLadders
 
         public void MoveToken(int spacesToMove)
         {
-            if(!(_currentPosition + spacesToMove > 100))
+            if (canMakeMove(spacesToMove))
             {
                 _currentPosition += spacesToMove;
-            }            
+            }
+        }
+
+        private bool canMakeMove(int spacesToMove)
+        {
+            return !(_currentPosition + spacesToMove > boardSize);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace SnakesAndLadders.Tests
     [TestFixture]
     public class SnakesAndLaddersGameShould
     {
-        private SnakesAndLaddersGame _game;
+        private SnakesAndLaddersGame _game;        
 
         [SetUp]
         public void SetUp()
