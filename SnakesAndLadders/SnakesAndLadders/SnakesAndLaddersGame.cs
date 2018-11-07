@@ -8,6 +8,12 @@ namespace SnakesAndLadders
     {
         private const int boardSize = 100;
         int _currentPosition;
+        public event EventHandler GameFinished;
+
+        protected virtual void OnGameFinished(GameFinishedEventArgs e)
+        {
+            GameFinished?.Invoke(this, e);
+        }
 
         public SnakesAndLaddersGame()
         {
@@ -24,6 +30,16 @@ namespace SnakesAndLadders
             if (canMakeMove(spacesToMove))
             {
                 _currentPosition += spacesToMove;
+            }
+
+            if (_currentPosition == boardSize)
+            {
+                var args = new GameFinishedEventArgs
+                {
+                    Message = "Player One Wins"
+                };
+
+                OnGameFinished(args);
             }
         }
 

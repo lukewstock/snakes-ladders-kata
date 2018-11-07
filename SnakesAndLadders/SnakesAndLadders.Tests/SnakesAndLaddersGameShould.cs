@@ -53,5 +53,21 @@ namespace SnakesAndLadders.Tests
             var result = _game.GetPlayerTokenPosition();
             result.Should().Be(1);
         }
+
+        [Test]
+        public void ShouldFinishTheGame_WhenThePlayerTokenReachesTheLastSqaure()
+        {
+            string result = string.Empty;
+
+            _game.GameFinished += delegate (object sender, EventArgs e)
+            {
+                var eventData = (GameFinishedEventArgs)e;
+                result = eventData.Message;
+            };
+
+            _game.MoveToken(99);
+
+            result.Should().BeEquivalentTo("Player One Wins");
+        }
     }
 }
