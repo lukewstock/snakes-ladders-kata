@@ -4,7 +4,11 @@ using System.Text;
 
 namespace SnakesAndLadders
 {
-    class SnakesAndLaddersGame
+    public class SnakesAndLaddersGame
     {
+        public int GetPlayerTokenPosition()
+        {
+            return 1;
+        }
     }
 }
