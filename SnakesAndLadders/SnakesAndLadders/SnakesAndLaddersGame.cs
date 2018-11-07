@@ -32,7 +32,7 @@ namespace SnakesAndLadders
             MoveToken(_die.Roll());
         }
 
-        public void MoveToken(int spacesToMove)
+        private void MoveToken(int spacesToMove)
         {
             if (canMakeMove(spacesToMove))
             {
