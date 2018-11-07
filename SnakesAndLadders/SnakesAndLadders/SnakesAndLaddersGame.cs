@@ -7,7 +7,8 @@ namespace SnakesAndLadders
     public class SnakesAndLaddersGame
     {
         private const int boardSize = 100;
-        int _currentPosition;
+        private IDie _die;
+        private int _currentPosition;
         public event EventHandler GameFinished;
 
         protected virtual void OnGameFinished(GameFinishedEventArgs e)
@@ -15,14 +16,20 @@ namespace SnakesAndLadders
             GameFinished?.Invoke(this, e);
         }
 
-        public SnakesAndLaddersGame()
+        public SnakesAndLaddersGame(IDie die)
         {
             _currentPosition = 1;
+            _die = die;
         }
 
         public int GetPlayerTokenPosition()
         {
             return _currentPosition;
+        }
+
+        public void TakeTurn()
+        {
+            MoveToken(_die.Roll());
         }
 
         public void MoveToken(int spacesToMove)

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,14 @@ namespace SnakesAndLadders.Tests
     [TestFixture]
     public class SnakesAndLaddersGameShould
     {
-        private SnakesAndLaddersGame _game;        
+        private SnakesAndLaddersGame _game;
+        private Mock<IDie> _mockDie;
 
         [SetUp]
         public void SetUp()
         {
-            _game = new SnakesAndLaddersGame();
+            _mockDie = new Mock<IDie>();
+            _game = new SnakesAndLaddersGame(_mockDie.Object);
         }
 
         [Test]
@@ -68,6 +71,16 @@ namespace SnakesAndLadders.Tests
             _game.MoveToken(99);
 
             result.Should().BeEquivalentTo("Player One Wins");
+        }
+
+        [Test]
+        public void ShouldRollTheDie_WhenTakingATurn()
+        {
+            _mockDie.Setup(x => x.Roll()).Returns(1);
+
+            _game.TakeTurn();
+
+            _mockDie.Verify(x => x.Roll(), Times.Once);
         }
     }
 }
