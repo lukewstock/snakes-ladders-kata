@@ -24,5 +24,14 @@ namespace SnakesAndLadders.Tests
 
             result.Should().Be(1);
         }
+
+        [Test]
+        public void ShouldUpdateTheCurrentPlayerTokenPosition_WhenPlayerTokenIsMoved()
+        {
+            _game.MoveToken(1);
+
+            var result = _game.GetPlayerTokenPosition();
+            result.Should().Be(2);
+        }
     }
 }
