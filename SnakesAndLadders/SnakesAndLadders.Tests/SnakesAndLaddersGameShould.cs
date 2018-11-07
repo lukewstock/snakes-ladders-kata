@@ -2,8 +2,6 @@
 using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SnakesAndLadders.Tests
 {
@@ -38,6 +36,17 @@ namespace SnakesAndLadders.Tests
             result.Should().Be(expectedPosition);
         }
 
+        [TestCase(1, 2)]
+        [TestCase(24, 25)]
+        public void ShouldUpdateTheCurrentPlayerTokenPosition_WhenATurnIsTaken(int moves, int expectedPosition)
+        {
+            _mockDie.Setup(x => x.Roll()).Returns(moves);
+            _game.TakeTurn();
+
+            var result = _game.GetPlayerTokenPosition();
+            result.Should().Be(expectedPosition);
+        }
+
         [Test]
         public void ShouldUpdateThePositionForEachMove_WhenPlayerTokenIsMovedMutipleTimes()
         {
@@ -49,9 +58,32 @@ namespace SnakesAndLadders.Tests
         }
 
         [Test]
+        public void ShouldUpdateThePositionForEachMove_WhenTurnTakenMutipleTimes()
+        {
+            _mockDie.Setup(x => x.Roll()).Returns(5);
+
+            _game.TakeTurn();
+            _game.TakeTurn();
+
+            var result = _game.GetPlayerTokenPosition();
+            result.Should().Be(11);
+        }
+
+        [Test]
         public void ShouldNotUpdateThePosition_WhenTheMoveWouldExceedTheMaxPosition()
         {
             _game.MoveToken(100);
+
+            var result = _game.GetPlayerTokenPosition();
+            result.Should().Be(1);
+        }
+
+        [Test]
+        public void ShouldNotUpdateThePosition_WhenTheTurnWouldExceedTheMaxPosition()
+        {
+            _mockDie.Setup(x => x.Roll()).Returns(100);
+
+            _game.TakeTurn();
 
             var result = _game.GetPlayerTokenPosition();
             result.Should().Be(1);
@@ -69,6 +101,23 @@ namespace SnakesAndLadders.Tests
             };
 
             _game.MoveToken(99);
+
+            result.Should().BeEquivalentTo("Player One Wins");
+        }
+
+        [Test]
+        public void ShouldFinishTheGame_WhenThePlayerTokenReachesTheLastSqaureTakingATurn()
+        {
+            string result = string.Empty;
+
+            _game.GameFinished += delegate (object sender, EventArgs e)
+            {
+                var eventData = (GameFinishedEventArgs)e;
+                result = eventData.Message;
+            };
+
+            _mockDie.Setup(x => x.Roll()).Returns(99);
+            _game.TakeTurn();
 
             result.Should().BeEquivalentTo("Player One Wins");
         }
